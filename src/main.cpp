@@ -1184,9 +1184,29 @@ void about_proc()
   }
 }
 
+#include <qrcode.h>
 void ota_proc()
 {
   // TODO: 添加二维码用于扫码连接WIFI
+  // 生成手机可扫码连接WIFI的二维码
+  QRCode qrcode; // 实例化QRCode类
+  uint8_t qrcodeData[qrcode_getBufferSize(3)];
+  qrcode_initText(&qrcode, qrcodeData, 3, 0, "WIFI:T:nopass;S:ESP32-OTA;P:;;"); // 初始化二维码显示的字符
+  for (uint8_t y = 0; y < qrcode.size; y++)
+  {
+
+    // Left quiet zone
+    Serial.print("        ");
+
+    // Each horizontal module
+    for (uint8_t x = 0; x < qrcode.size; x++)
+    {
+
+      // Print each module (UTF-8 \u2588 is a solid block)
+      Serial.print(qrcode_getModule(&qrcode, x, y) ? "\u2588\u2588" : "  ");
+    }
+    Serial.print("\n");
+  }
 
   u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
   u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width("OTA升级")) / 2, 44, "OTA升级");
@@ -1291,7 +1311,7 @@ void loop()
   btn_scan();
   ui_proc();
   mqtt_loop();
-  if (tim1_IRQ_count >= 3)
+  if (tim1_IRQ_count > 3 && BH1750.retry_cnt < 3)
   {
     BH1750_read();
     if (ui.param[AUTO_BRI])
@@ -1299,6 +1319,10 @@ void loop()
       ui.param[DISP_BRI] = BH1750.value;
       u8g2.setContrast(ui.param[DISP_BRI]);
     }
+    tim1_IRQ_count = 0;
+  }
+  else
+  {
     tim1_IRQ_count = 0;
   }
 }
