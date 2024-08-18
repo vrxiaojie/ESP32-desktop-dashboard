@@ -1186,6 +1186,7 @@ void about_proc()
 
 void ota_proc()
 {
+  // TODO: 添加二维码用于扫码连接WIFI
 
   u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
   u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width("OTA升级")) / 2, 44, "OTA升级");
