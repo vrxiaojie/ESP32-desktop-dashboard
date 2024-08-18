@@ -103,8 +103,8 @@ M_SELECT setting_menu[]{
 };
 
 M_SELECT about_menu[]{
-    {"[ WouoUI For ESP32 ]"},
-    {strcat((char*)"- 系统版本:", SYS_VERSION)},
+    {"[   关于本机   ]"},
+    {SYS_VERSION},
     {"- 开发板: ESP32-S3"},
     {"~ CPU主频 MHz:"},
     {"- RAM: 320KB"},
@@ -1193,10 +1193,10 @@ void ota_proc()
   qrcode_initText(&qrcode, qrcodeData, 3, 0, "WIFI:T:nopass;S:ESP32-OTA;P:;;"); // 初始化二维码显示的字符
   uint8_t x0 = 3;
   uint8_t y0 = (DISP_H - qrcode.size * 2) / 2;
-  //二维码用白底黑字，更容易扫上
-  u8g2.setDrawColor(1); 
+  // 二维码用白底黑字，更容易扫上
+  u8g2.setDrawColor(1);
   u8g2.drawBox(0, 0, 64, 64); // 画箱
-  //用循环获取二维码每个像素值
+  // 用循环获取二维码每个像素值
   for (uint8_t y = 0; y < qrcode.size; y++)
   {
     for (uint8_t x = 0; x < qrcode.size; x++)
@@ -1217,15 +1217,15 @@ void ota_proc()
       u8g2.drawPixel(x0 + 1 + x * 2, y0 + 1 + y * 2);
     }
   }
-// 右半边屏幕黑底白字
+  // 右半边屏幕黑底白字
   u8g2.setDrawColor(0);
   u8g2.drawBox(64, 0, DISP_W, DISP_H);
   u8g2.setDrawColor(1);
   u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
   u8g2.drawUTF8(66, 16, "OTA升级");
-  u8g2.drawUTF8(66,32, strcat((char*)"系统",SYS_VERSION));
-  u8g2.drawUTF8(66,48, "ESP32-OTA");
-  
+  u8g2.drawUTF8(66, 32, strcat((char *)"系统", SYS_VERSION));
+  u8g2.drawUTF8(66, 48, "ESP32-OTA");
+
   u8g2.sendBuffer();
   OTA_update(); // 启动OTA升级函数，打开AP模式、启动网页服务器
   // 退出上面函数后返回主菜单
