@@ -104,7 +104,7 @@ M_SELECT setting_menu[]{
 
 M_SELECT about_menu[]{
     {"[ WouoUI For ESP32 ]"},
-    {"- 版本: v2.3"},
+    {strcat((char*)"- 系统版本:", SYS_VERSION)},
     {"- 开发板: ESP32-S3"},
     {"~ CPU主频 MHz:"},
     {"- RAM: 320KB"},
@@ -1187,17 +1187,16 @@ void about_proc()
 #include <qrcode.h>
 void ota_proc()
 {
-  // TODO: 添加二维码用于扫码连接WIFI
   // 生成手机可扫码连接WIFI的二维码
   QRCode qrcode; // 实例化QRCode类
   uint8_t qrcodeData[qrcode_getBufferSize(3)];
   qrcode_initText(&qrcode, qrcodeData, 3, 0, "WIFI:T:nopass;S:ESP32-OTA;P:;;"); // 初始化二维码显示的字符
-  // get the draw starting point,128 and 64 is screen size
   uint8_t x0 = 3;
   uint8_t y0 = (DISP_H - qrcode.size * 2) / 2;
-  // u8g2.setDrawColor(1); //
-  u8g2.drawBox(0, 0, 128, 64); // 画箱
-  // get QR code pixels in a loop
+  //二维码用白底黑字，更容易扫上
+  u8g2.setDrawColor(1); 
+  u8g2.drawBox(0, 0, 64, 64); // 画箱
+  //用循环获取二维码每个像素值
   for (uint8_t y = 0; y < qrcode.size; y++)
   {
     for (uint8_t x = 0; x < qrcode.size; x++)
@@ -1218,15 +1217,15 @@ void ota_proc()
       u8g2.drawPixel(x0 + 1 + x * 2, y0 + 1 + y * 2);
     }
   }
-
-  // u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
-  // u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width("OTA升级")) / 2, 44, "OTA升级");
-  // u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width(SYS_VERSION)) / 2, 62, SYS_VERSION);
-  // u8g2.drawXBMP(49, 0, 30, 30, main_icon_pic[5]);
-  // 反转屏幕内元素颜色，白天模式遮罩
-  u8g2.setDrawColor(2);
-  if (!ui.param[DARK_MODE])
-    u8g2.drawBox(0, 0, DISP_W, DISP_H);
+// 右半边屏幕黑底白字
+  u8g2.setDrawColor(0);
+  u8g2.drawBox(64, 0, DISP_W, DISP_H);
+  u8g2.setDrawColor(1);
+  u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
+  u8g2.drawUTF8(66, 16, "OTA升级");
+  u8g2.drawUTF8(66,32, strcat((char*)"系统",SYS_VERSION));
+  u8g2.drawUTF8(66,48, "ESP32-OTA");
+  
   u8g2.sendBuffer();
   OTA_update(); // 启动OTA升级函数，打开AP模式、启动网页服务器
   // 退出上面函数后返回主菜单
