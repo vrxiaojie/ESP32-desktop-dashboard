@@ -15,7 +15,10 @@ void BH1750_read(void *pt)
             Serial.println("I2C device busy");
             BH1750.retry_cnt++;
             if (BH1750.retry_cnt > 3)
+            {
+                BH1750.retry_cnt = 0;
                 vTaskDelete(NULL);
+            }
         }
         for (byte i = 1; i < ADDRLEN; i++)
             si.i2c_write(0x00);
@@ -34,7 +37,7 @@ void BH1750_read(void *pt)
         {
             ui.param[DISP_BRI] = BH1750.value;
         }
-        vTaskDelay(300);  // 间隔300ticks再去获取数值
+        vTaskDelay(300); // 间隔300ticks再去获取数值
     }
 }
 
