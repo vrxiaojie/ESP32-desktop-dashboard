@@ -1192,26 +1192,37 @@ void ota_proc()
   QRCode qrcode; // 实例化QRCode类
   uint8_t qrcodeData[qrcode_getBufferSize(3)];
   qrcode_initText(&qrcode, qrcodeData, 3, 0, "WIFI:T:nopass;S:ESP32-OTA;P:;;"); // 初始化二维码显示的字符
+  // get the draw starting point,128 and 64 is screen size
+  uint8_t x0 = 3;
+  uint8_t y0 = (DISP_H - qrcode.size * 2) / 2;
+  // u8g2.setDrawColor(1); //
+  u8g2.drawBox(0, 0, 128, 64); // 画箱
+  // get QR code pixels in a loop
   for (uint8_t y = 0; y < qrcode.size; y++)
   {
-
-    // Left quiet zone
-    Serial.print("        ");
-
-    // Each horizontal module
     for (uint8_t x = 0; x < qrcode.size; x++)
     {
-
-      // Print each module (UTF-8 \u2588 is a solid block)
-      Serial.print(qrcode_getModule(&qrcode, x, y) ? "\u2588\u2588" : "  ");
+      // Check this point is black or white
+      if (qrcode_getModule(&qrcode, x, y))
+      {
+        u8g2.setColorIndex(0);
+      }
+      else
+      {
+        u8g2.setColorIndex(1);
+      }
+      // Double the QR code pixels
+      u8g2.drawPixel(x0 + x * 2, y0 + y * 2);
+      u8g2.drawPixel(x0 + 1 + x * 2, y0 + y * 2);
+      u8g2.drawPixel(x0 + x * 2, y0 + 1 + y * 2);
+      u8g2.drawPixel(x0 + 1 + x * 2, y0 + 1 + y * 2);
     }
-    Serial.print("\n");
   }
 
-  u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
-  u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width("OTA升级")) / 2, 44, "OTA升级");
-  u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width(SYS_VERSION)) / 2, 62, SYS_VERSION);
-  u8g2.drawXBMP(49, 0, 30, 30, main_icon_pic[5]);
+  // u8g2.setFont(u8g2_font_wqy12_t_gb2312a);
+  // u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width("OTA升级")) / 2, 44, "OTA升级");
+  // u8g2.drawUTF8((DISP_W - u8g2.getUTF8Width(SYS_VERSION)) / 2, 62, SYS_VERSION);
+  // u8g2.drawXBMP(49, 0, 30, 30, main_icon_pic[5]);
   // 反转屏幕内元素颜色，白天模式遮罩
   u8g2.setDrawColor(2);
   if (!ui.param[DARK_MODE])
