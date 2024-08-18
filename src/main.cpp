@@ -1143,6 +1143,8 @@ void setting_proc()
         break;
       case 17:
         check_box_m_select(AUTO_BRI);
+        if (ui.param[AUTO_BRI])
+          BH1750_init();
         break;
 
       // 关于本机
@@ -1312,7 +1314,7 @@ void setup()
   }
 
   BH1750_init();
-  timer_init();
+  // timer_init();
   Serial.println("Init done");
 }
 
@@ -1321,18 +1323,19 @@ void loop()
   btn_scan();
   ui_proc();
   mqtt_loop();
-  if (tim1_IRQ_count > 3 && BH1750.retry_cnt < 3)
-  {
-    BH1750_read();
-    if (ui.param[AUTO_BRI])
-    {
-      ui.param[DISP_BRI] = BH1750.value;
-      u8g2.setContrast(ui.param[DISP_BRI]);
-    }
-    tim1_IRQ_count = 0;
-  }
-  else
-  {
-    tim1_IRQ_count = 0;
-  }
+  // if (tim1_IRQ_count > 3 && BH1750.retry_cnt < 3)
+  // {
+  //   BH1750_read();
+  //   if (ui.param[AUTO_BRI])
+  //   {
+  //     ui.param[DISP_BRI] = BH1750.value;
+  //     u8g2.setContrast(ui.param[DISP_BRI]);
+  //   }
+  //   tim1_IRQ_count = 0;
+  // }
+  // else
+  // {
+  //   tim1_IRQ_count = 0;
+  // }
+  u8g2.setContrast(ui.param[DISP_BRI]);
 }

@@ -1,12 +1,15 @@
 #ifndef BH1750_H_
 #define BH1750_H_
 #include <SlowSoftI2CMaster.h> //使用软件I2C
+#include <main.h>
+#include "freertos/FreeRTOSConfig.h"
+
 
 #define I2C_7BITADDR 0x23
 #define MEMLOC 0x10
 #define ADDRLEN 1
 void BH1750_init(void);
-void BH1750_read(void);
+void BH1750_read(void *pt);
 
 struct EnvLightSensor
 {
