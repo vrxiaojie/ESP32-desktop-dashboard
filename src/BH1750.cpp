@@ -4,7 +4,7 @@
 // 47-->SDA  38-->SCL
 SlowSoftI2CMaster si = SlowSoftI2CMaster(47, 38, true);
 
-EnvLightSensor BH1750 = {255};
+EnvLightSensor BH1750 = {255, 0};
 
 // 初始化环境光传感器
 void BH1750_init()
@@ -12,6 +12,7 @@ void BH1750_init()
     if (!si.i2c_init())
     {
         Serial.println("I2C init failed");
+        BH1750.retry_cnt++;
         return;
     }
     pinMode(47, OUTPUT_OPEN_DRAIN);

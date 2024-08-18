@@ -11,6 +11,7 @@ void BH1750_read(void);
 struct EnvLightSensor
 {
     uint16_t value;
+    uint8_t retry_cnt;
 };
 extern EnvLightSensor BH1750;
 
