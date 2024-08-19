@@ -1323,19 +1323,6 @@ void loop()
   btn_scan();
   ui_proc();
   mqtt_loop();
-  // if (tim1_IRQ_count > 3 && BH1750.retry_cnt < 3)
-  // {
-  //   BH1750_read();
-  //   if (ui.param[AUTO_BRI])
-  //   {
-  //     ui.param[DISP_BRI] = BH1750.value;
-  //     u8g2.setContrast(ui.param[DISP_BRI]);
-  //   }
-  //   tim1_IRQ_count = 0;
-  // }
-  // else
-  // {
-  //   tim1_IRQ_count = 0;
-  // }
+
   u8g2.setContrast(ui.param[DISP_BRI]);
 }
