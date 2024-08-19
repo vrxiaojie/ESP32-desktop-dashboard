@@ -52,5 +52,5 @@ void BH1750_init()
     }
     pinMode(47, OUTPUT_OPEN_DRAIN);
     pinMode(38, OUTPUT_OPEN_DRAIN);
-    xTaskCreate(BH1750_read, "Read BH1750 data", 1024, NULL, 1, NULL); // 使用FreeRTOS创建任务
+    xTaskCreatePinnedToCore(BH1750_read, "Read BH1750 data", 1024, NULL, 1, NULL, 0); // 使用FreeRTOS创建任务于CPU0
 }
