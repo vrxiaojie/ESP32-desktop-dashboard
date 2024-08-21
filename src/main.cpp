@@ -243,13 +243,12 @@ void sleep_param_init()
     EEPROM_write_data(); // 将设置参数写入EEPROM
     eeprom.change = false;
   }
-  // TODO: GPIO14 待修改为实际板子上的确认键
-  esp_sleep_enable_ext0_wakeup(GPIO_NUM_14, 1); // GPIO14，即确认键，待板子到了之后再修改
-  rtc_gpio_pullup_dis(GPIO_NUM_14);
-  rtc_gpio_pulldown_en(GPIO_NUM_14);
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_13, 1); // GPIO13，即确认键
+  rtc_gpio_pullup_dis(GPIO_NUM_13);
+  rtc_gpio_pulldown_en(GPIO_NUM_13);
   esp_deep_sleep_start();       // 进入深度睡眠
-  rtc_gpio_deinit(GPIO_NUM_14); // 从睡眠中唤醒，并把GPIO14 RTC去初始化
-  pinMode(14, INPUT_PULLDOWN);  // 将GPIO14 重新初始化为数字GPIO
+  rtc_gpio_deinit(GPIO_NUM_13); // 从睡眠中唤醒，并把GPIO14 RTC去初始化
+  pinMode(13, INPUT_PULLDOWN);  // 将GPIO13 重新初始化为数字GPIO
 }
 
 // 电压测量页初始化

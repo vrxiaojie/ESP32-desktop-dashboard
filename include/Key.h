@@ -5,9 +5,9 @@
 #include "main.h"
 
 // 可按下旋钮引脚
-#define BTN0 12
-#define BTN1 13
-#define BTN2 14
+#define BTN0 14     //UP
+#define BTN1 12     //DOWN
+#define BTN2 13     //确认
 
 // 按键ID
 #define BTN_ID_CC 0 // 逆时针旋转
