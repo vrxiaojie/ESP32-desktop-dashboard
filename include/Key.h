@@ -17,19 +17,6 @@
 
 // 按键变量
 #define BTN_PARAM_TIMES 2 // 由于uint8_t最大值可能不够，但它存储起来方便，这里放大两倍使用
-// 可按下旋钮引脚
-#define BTN0 12
-#define BTN1 13
-#define BTN2 14
-
-// 按键ID
-#define BTN_ID_CC 0 // 逆时针旋转
-#define BTN_ID_CW 1 // 顺时针旋转
-#define BTN_ID_SP 2 // 短按
-#define BTN_ID_LP 3 // 长按
-
-// 按键变量
-#define BTN_PARAM_TIMES 2 // 由于uint8_t最大值可能不够，但它存储起来方便，这里放大两倍使用
 
 typedef struct
 {
