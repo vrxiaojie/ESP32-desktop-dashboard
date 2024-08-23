@@ -27,6 +27,7 @@
 
 ## 0 项目开源地址
 [https://github.com/vrxiaojie/ESP32-desktop-dashboard](https://github.com/vrxiaojie/ESP32-desktop-dashboard)
+
 [https://oshwhub.com/vrxiaojie/esp32-based-desktop-dashboard](https://oshwhub.com/vrxiaojie/esp32-based-desktop-dashboard)
 
 ## 1 简介
