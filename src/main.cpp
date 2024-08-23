@@ -1313,7 +1313,7 @@ void setup()
   }
 
   BH1750_init();
-  // timer_init();
+  timer_init();
   Serial.println("Init done");
 }
 
@@ -1324,4 +1324,9 @@ void loop()
   mqtt_loop();
 
   u8g2.setContrast(ui.param[DISP_BRI]);
+  if(tim1_IRQ_count>3)
+  {
+    mqtt.mqtt_connect_flag = 1;
+    tim1_IRQ_count = 0;
+  }
 }
